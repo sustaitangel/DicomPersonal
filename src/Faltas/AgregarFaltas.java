@@ -17,7 +17,7 @@ public class AgregarFaltas {
 	java.sql.Statement list;
 	ResultSet rs;
 	public void agregar(JTextField txtFolio,JTextField txtNumEmpleado, JTextField txtNombre, JTextField txtApaterno, 
-			JTextField txtAmaterno, String fechaF, JTextField txtFaltas){
+			JTextField txtAmaterno, String fechaF, String txtFaltas,String tipo){
 		try {
 			Conectar cx=new Conectar();
 			Connection cn=cx.conexion(null);
@@ -30,12 +30,9 @@ public class AgregarFaltas {
 			if(rs.next()){
 				JOptionPane.showMessageDialog(null, "El Producto ya existe");
 			}else{
-				if(txtFaltas.getText().length()==0){
-					txtFaltas.setText("0");
-				}
 				
 					String sql = "insert into faltas_has_empleados (folio,num_empleado,nombre,apellido_paterno," +
-							"apellido_materno,fecha,faltas) values (?,?,?,?,?,?,?)";
+							"apellido_materno,fecha,faltas,tipo_falta) values (?,?,?,?,?,?,?,?)";
 					PreparedStatement ps = (PreparedStatement) con.prepareCall(sql);
 					ps.setString(1, txtFolio.getText());
 					ps.setString(2, txtNumEmpleado.getText());
@@ -43,7 +40,8 @@ public class AgregarFaltas {
 					ps.setString(4, txtApaterno.getText());
 					ps.setString(5, txtAmaterno.getText());
 					ps.setString(6, fechaF);
-					ps.setString(7, txtFaltas.getText());
+					ps.setString(7, txtFaltas);
+					ps.setString(8, tipo);
 					
 					int n = ps.executeUpdate();
 					if (n > 0) {

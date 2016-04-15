@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import Conexion.Conectar;
 import Empleados.AgregarEmpleados;
 import Empleados.AltaEmpleados;
+import Empleados.EmpleadosFalta;
 import Empleados.ModificarEmpleados;
 import Faltas.Componentes;
 import Imagenes.Img;
@@ -47,7 +48,6 @@ import java.util.Calendar;
 public class AltaFaltas extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtFaltas;
 	private JTextField txtBuscarEmpleados;
 	private JTextField txtFolio;
 	private JTable tableVerEmpleados;
@@ -70,6 +70,10 @@ public class AltaFaltas extends JFrame {
 	public static String Fecha;
 	public static String Faltas;
 	public static String Folio;
+	public static String fechaF;
+	public static JButton falta1 = new JButton("Falta 1");
+	public static JButton falta2 = new JButton("Falta 2");
+	public static JButton falta3 = new JButton("Falta 3");
 
 	/**
 	 * Launch the application.
@@ -308,49 +312,17 @@ public class AltaFaltas extends JFrame {
 		JLabel lblFecha = new JLabel("Fecha :");
 		lblFecha.setForeground(new Color(255, 69, 0));
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblFecha.setBounds(152, 177, 47, 20);
+		lblFecha.setBounds(259, 11, 47, 20);
 		panel.add(lblFecha);
 		
 		JDateChooser dateChooserFaltas = new JDateChooser();
 		dateChooserFaltas.setForeground(new Color(128, 0, 0));
-		dateChooserFaltas.setBounds(205, 177, 133, 20);
+		dateChooserFaltas.setBounds(316, 11, 133, 20);
 		panel.add(dateChooserFaltas);
 		
-		JLabel lblFaltas = new JLabel("Faltas :");
-		lblFaltas.setForeground(new Color(255, 69, 0));
-		lblFaltas.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblFaltas.setBounds(153, 208, 47, 20);
-		panel.add(lblFaltas);
-		
-		txtFaltas = new JTextField();
-		txtFaltas.setForeground(new Color(128, 0, 0));
-		txtFaltas.setFont(new Font("Tahoma", Font.BOLD, 11));
-		txtFaltas.setBounds(205, 209, 133, 20);
-		panel.add(txtFaltas);
-		txtFaltas.setColumns(10);
-		
 		Img ob20 = new Img();
-		JButton btnCancelar = new JButton("",ob20.btnCancelar());
-		btnCancelar.setBounds(174, 239, 92, 45);
-		panel.add(btnCancelar);
 		
 		Img ob21 = new Img();
-		JButton btnGuardar = new JButton("",ob21.btnGuardar());
-		btnGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AgregarFaltas n50= new AgregarFaltas();
-				int ano = dateChooserFaltas.getCalendar().get(Calendar.YEAR);
-				int mes = dateChooserFaltas.getCalendar().get(Calendar.MONTH) + 1;
-				int dia = dateChooserFaltas.getCalendar().get(Calendar.DAY_OF_MONTH);
-				String fechaF= String.valueOf(ano)+"-"+String.valueOf(mes)+"-"+String.valueOf(dia);
-				n50.agregar(txtFolio,txtNumEmpleado, txtNombre, txtApaterno, txtAmaterno,fechaF, txtFaltas);
-				
-				
-				limpiar();	
-			}
-		});
-		btnGuardar.setBounds(280, 239, 92, 45);
-		panel.add(btnGuardar);
 		tableVerEmpleados.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				componentes.habilitar(btnEliminar, btnActualizar);
@@ -383,9 +355,18 @@ public class AltaFaltas extends JFrame {
 		JButton btnVerEmpelados = new JButton("Ver Empleados");
 		btnVerEmpelados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AltaEmpleados fm10=new  AltaEmpleados();
-				fm10.setVisible(true);
-				fm10.setLocation(600, 100);
+				limpiar();
+				int ano = dateChooserFaltas.getCalendar().get(Calendar.YEAR);
+				int mes = dateChooserFaltas.getCalendar().get(Calendar.MONTH) + 1;
+				int dia = dateChooserFaltas.getCalendar().get(Calendar.DAY_OF_MONTH);
+				fechaF= String.valueOf(ano)+"-"+String.valueOf(mes)+"-"+String.valueOf(dia);
+				if(fechaF.length()>1){
+					EmpleadosFalta fm10=new  EmpleadosFalta();
+					fm10.setVisible(true);	
+					fm10.setLocationRelativeTo(null);
+				}else{
+					JOptionPane.showMessageDialog(null, "Agregue una fecha");
+				}
 			}
 		});
 		btnVerEmpelados.setBackground(new Color(220, 220, 220));
@@ -418,6 +399,60 @@ public class AltaFaltas extends JFrame {
 		txtFolio.setBounds(100, 9, 133, 20);
 		panel.add(txtFolio);
 		txtFolio.setColumns(10);
+		falta1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AgregarFaltas n50= new AgregarFaltas();
+				int ano = dateChooserFaltas.getCalendar().get(Calendar.YEAR);
+				int mes = dateChooserFaltas.getCalendar().get(Calendar.MONTH) + 1;
+				int dia = dateChooserFaltas.getCalendar().get(Calendar.DAY_OF_MONTH);
+				String fechaF= String.valueOf(ano)+"-"+String.valueOf(mes)+"-"+String.valueOf(dia);
+				String txtFaltas="1";
+				String tipo="1";
+				n50.agregar(txtFolio,txtNumEmpleado, txtNombre, txtApaterno, txtAmaterno,fechaF, txtFaltas,tipo);
+				limpiar();	
+			}
+		});
+		falta1.setForeground(new Color(0,0,0));
+		
+		falta1.setBounds(83, 194, 116, 23);
+		panel.add(falta1);
+		falta2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AgregarFaltas n50= new AgregarFaltas();
+				int ano = dateChooserFaltas.getCalendar().get(Calendar.YEAR);
+				int mes = dateChooserFaltas.getCalendar().get(Calendar.MONTH) + 1;
+				int dia = dateChooserFaltas.getCalendar().get(Calendar.DAY_OF_MONTH);
+				String fechaF= String.valueOf(ano)+"-"+String.valueOf(mes)+"-"+String.valueOf(dia);
+				String txtFaltas="1";
+				String tipo="2";
+				n50.agregar(txtFolio,txtNumEmpleado, txtNombre, txtApaterno, txtAmaterno,fechaF, txtFaltas,tipo);
+				limpiar();
+			}
+		});
+		falta2.setEnabled(false);
+		falta2.setForeground(new Color(0,0,0));
+		
+		falta2.setBounds(222, 194, 116, 23);
+		panel.add(falta2);
+		falta3.setEnabled(false);
+		
+		
+		falta3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AgregarFaltas n50= new AgregarFaltas();
+				int ano = dateChooserFaltas.getCalendar().get(Calendar.YEAR);
+				int mes = dateChooserFaltas.getCalendar().get(Calendar.MONTH) + 1;
+				int dia = dateChooserFaltas.getCalendar().get(Calendar.DAY_OF_MONTH);
+				String fechaF= String.valueOf(ano)+"-"+String.valueOf(mes)+"-"+String.valueOf(dia);
+				String txtFaltas="1";
+				String tipo="3";
+				n50.agregar(txtFolio,txtNumEmpleado, txtNombre, txtApaterno, txtAmaterno,fechaF, txtFaltas,tipo);
+				limpiar();
+			}
+		});
+		falta3.setForeground(new Color(0,0,0));
+		falta3.setBounds(358, 194, 116, 23);
+		panel.add(falta3);
 		
 	
 	}
@@ -426,6 +461,17 @@ public class AltaFaltas extends JFrame {
 		txtNombre.setText("");
 		txtApaterno.setText("");
 		txtAmaterno.setText("");
-		txtFaltas.setText("");
+		falta1.setForeground(new Color(0,0,0));
+		falta1.setBackground(new Color(240,240,240));
+		falta1.setEnabled(true);
+		falta1.setText("Falta 1");
+		falta2.setForeground(new Color(0,0,0));
+		falta2.setBackground(new Color(240,240,240));
+		falta2.setEnabled(false);
+		falta2.setText("Falta 2");
+		falta3.setForeground(new Color(0,0,0));
+		falta3.setBackground(new Color(240,240,240));
+		falta3.setEnabled(false);
+		falta3.setText("Falta 3");
 	}
 }
